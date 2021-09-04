@@ -1,0 +1,39 @@
+#########
+# Reuse #
+#########
+variables:
+  RUNNER_IMAGE: docker:stable
+  ARTIFACT_IMAGE: registry.gitlab.com/gisleburt/rust-builder
+
+##########
+# Stages #
+##########
+stages:
+  - build
+
+#########
+# Build #
+#########
+.docker-build: &docker-build
+  stage: build
+  image: docker:stable
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+build-linux-arm64:
+  <<: *docker-build
+  tags:
+    - linux
+    - arm64
+  stage: build
+  script:
+    - docker build . -t $ARTIFACT_IMAGE
+    - docker push $ARTIFACT_IMAGE
+    - RUST_VERSION=$(docker run --rm $ARTIFACT_IMAGE sh -c "rustc --version | awk '{ print \$2 }'")
+    - docker tag $ARTIFACT_IMAGE $ARTIFACT_IMAGE:$RUST_VERSION
+    - docker push $ARTIFACT_IMAGE:$RUST_VERSION
