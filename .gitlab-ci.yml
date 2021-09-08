@@ -9,19 +9,7 @@ variables:
 # Stages #
 ##########
 stages:
-  - test
   - build
-
-########
-# Test #
-########
-test-job1:
-  stage: test
-  tags:
-    - linux
-    - arm64
-  script:
-    - echo "This job tests something"
 
 #########
 # Build #
