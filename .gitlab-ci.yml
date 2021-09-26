@@ -3,7 +3,7 @@
 #########
 variables:
   RUNNER_IMAGE: docker:20
-  ARTIFACT_IMAGE: registry.gitlab.com/gisleburt/rust-builder
+  ARTIFACT_IMAGE: registry.gitlab.com/gisleburt-homelab/rust-builder
 
 ##########
 # Stages #
@@ -38,6 +38,8 @@ build-linux-arm64:
   tags:
     - linux
     - arm64
+    - gisleburt
+    - homelab
   stage: build
   script:
     - docker build . -t $ARTIFACT_IMAGE
