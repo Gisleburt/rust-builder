@@ -25,7 +25,7 @@ stages:
   services:
     - docker:dind
   before_script:
-    - sleep 10
+    - while [ ! -f /certs/client/ca.pem ]; do sleep 1; done
     - ls -R /certs
     - docker info
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
