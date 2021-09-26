@@ -24,7 +24,8 @@ stages:
     DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
     DOCKER_TLS_VERIFY: 1
   services:
-    - docker:dind
+    - name: docker:dind
+      command: ["--mtu=1300"]
   before_script:
     - wget google.com # test dns is working
     - while [ ! -f /certs/client/ca.pem ]; do sleep 1; done
