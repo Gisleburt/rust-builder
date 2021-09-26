@@ -1,7 +1,7 @@
 FROM alpine
 
-RUN apk update \
- && apk add rustup \
- && rustup-init -y
+RUN apk update
+RUN apk add rustup
+RUN rustup-init -y
 
 ENV PATH="/root/.cargo/bin:${PATH}"
