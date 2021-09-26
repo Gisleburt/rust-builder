@@ -20,8 +20,9 @@ stages:
   services:
     - docker:dind
   variables:
-    DOCKER_HOST: tcp://localhost:2376
+    DOCKER_HOST: tcp://localhost:2375
     DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
