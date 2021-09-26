@@ -2,7 +2,7 @@
 # Reuse #
 #########
 variables:
-  RUNNER_IMAGE: docker:stable
+  RUNNER_IMAGE: docker:20
   ARTIFACT_IMAGE: registry.gitlab.com/gisleburt/rust-builder
 
 ##########
@@ -16,13 +16,15 @@ stages:
 #########
 .docker-build: &docker-build
   stage: build
-  image: docker:stable
+  image: docker:20-dind
   services:
     - docker:dind
   variables:
-    DOCKER_HOST: tcp://localhost:2375
+    DOCKER_HOST: tcp://localhost:2376
     DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
+    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+    DOCKER_TLS_VERIFY: 1
   before_script:
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
