@@ -4,6 +4,10 @@
 variables:
   RUNNER_IMAGE: docker:20
   ARTIFACT_IMAGE: registry.gitlab.com/gisleburt/rust-builder
+  DOCKER_HOST: tcp://localhost:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+  DOCKER_TLS_VERIFY: 1
 
 ##########
 # Stages #
@@ -19,13 +23,8 @@ stages:
   image: docker:20-dind
   services:
     - docker:dind
-  variables:
-    DOCKER_HOST: tcp://localhost:2376
-    DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: "/certs"
-    DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
-    DOCKER_TLS_VERIFY: 1
   before_script:
+    - docker info
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
 build-linux-arm64:
