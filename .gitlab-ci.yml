@@ -27,7 +27,7 @@ stages:
   before_script:
     - while [ ! -f /certs/client/ca.pem ]; do sleep 1; done
     - ls -R /certs
-    - docker info
+    - while ! docker info
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
 build-linux-arm64:
