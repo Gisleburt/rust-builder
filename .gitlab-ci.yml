@@ -25,7 +25,7 @@ stages:
   services:
     - docker:dind
   before_script:
-    - curl google.com # test dns is working
+    - wget google.com # test dns is working
     - while [ ! -f /certs/client/ca.pem ]; do sleep 1; done
     - ls -R /certs
     - while ! docker info; do sleep 1; done
