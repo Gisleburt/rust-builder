@@ -3,7 +3,7 @@
 #########
 variables:
   RUNNER_IMAGE: docker:20
-  ARTIFACT_IMAGE: registry.gitlab.com/gisleburt-homelab/rust-builder
+  ARTIFACT_IMAGE: registry.gitlab.com/gisleburt-homelab/rust-builder:$CI_COMMIT_TAG
 
 ##########
 # Stages #
@@ -17,6 +17,8 @@ stages:
 .docker-build: &docker-build
   stage: build
   image: docker:20-dind
+  only:
+    - tags
   variables:
     DOCKER_HOST: tcp://localhost:2376
     DOCKER_DRIVER: overlay2
