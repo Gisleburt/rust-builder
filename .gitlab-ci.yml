@@ -15,7 +15,7 @@ stages:
 #########
 .docker-build: &docker-build
   stage: build
-  image: docker:20-dind
+  image: docker:dind
   variables:
     DOCKER_HOST: tcp://localhost:2376
     DOCKER_DRIVER: overlay2
@@ -26,7 +26,7 @@ stages:
     - name: docker:dind
       command: ["--mtu=1300"]
   before_script:
-    - while [ ! -f /certs/client/ca.pem ]; do sleep 1; done
+#    - while [ ! -f /certs/client/ca.pem ]; do sleep 1; done
     - while ! docker info; do sleep 1; done
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
