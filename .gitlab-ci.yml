@@ -2,7 +2,6 @@
 # Reuse #
 #########
 variables:
-  RUNNER_IMAGE: docker:20
   ARTIFACT_IMAGE: registry.gitlab.com/gisleburt-homelab/rust-builder
 
 ##########
@@ -27,6 +26,7 @@ stages:
     - name: docker:dind
       command: ["--mtu=1300"]
   before_script:
+    - while [ ! -f /certs/client/ca.pem ]; do sleep 1; done
     - while ! docker info; do sleep 1; done
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
