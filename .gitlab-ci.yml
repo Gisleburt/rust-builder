@@ -29,9 +29,6 @@ stages:
     - name: docker:dind
       command: ["--mtu=1300"]
   before_script:
-    - wget google.com # test dns is working
-    - while [ ! -f /certs/client/ca.pem ]; do sleep 1; done
-    - ls -R /certs
     - while ! docker info; do sleep 1; done
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
 
